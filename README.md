@@ -1,5 +1,7 @@
 # README
 
+# public/iStock-155138688.jpg is the property of Jason Crockett. do not use on your site. 
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
