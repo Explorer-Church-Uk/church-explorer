@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   scope '/authenticated' do
     get '/home', action: :index, controller: 'devise/home'
     get '/about', action: :about, controller: 'devise/home'
-    get '/about', action: :services, controller: 'devise/home'
+    get '/services', action: :services, controller: 'devise/home'
   end
 end
