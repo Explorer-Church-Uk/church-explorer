@@ -7,4 +7,9 @@ Rails.application.routes.draw do
   root 'home#index'
   get '/about-us', controller: :home, action: :about
   get '/services', controller: :home, action: :services
+  scope '/authenticated' do
+    get '/home', action: :index, controller: 'devise/home'
+    get '/about', action: :about, controller: 'devise/home'
+    get '/about', action: :services, controller: 'devise/home'
+  end
 end
