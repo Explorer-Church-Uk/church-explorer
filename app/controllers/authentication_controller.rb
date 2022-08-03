@@ -1,5 +1,4 @@
 class AuthenticationController < ApplicationController
-  before_action :set_user,only: i%[ login ]
 
   def index
   end
