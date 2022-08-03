@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @overseer %>
+
+<div>
+  <%= link_to "Edit this overseer", edit_overseer_path(@overseer) %> |
+  <%= link_to "Back to overseers", overseers_path %>
+
+  <%= button_to "Destroy this overseer", @overseer, method: :delete %>
+</div>

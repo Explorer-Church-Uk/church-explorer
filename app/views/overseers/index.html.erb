@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Overseers</h1>
+
+<div id="overseers">
+  <% @overseers.each do |overseer| %>
+    <%= render overseer %>
+    <p>
+      <%= link_to "Show this overseer", overseer %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New overseer", new_overseer_path %>
