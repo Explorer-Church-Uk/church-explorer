@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="../../assets/stylesheets/theme.css"/>
     <title>ChurchExplorer</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "theme", "data-turbo-track": "reload" %>
   </head>
 
   <body>
+    <div class="container justify-content-center align-items-center">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-1 text-light text-center" style="text-shadow:2px 2px grey">Explorer Church<br></h1>
+        </div>
+      </div>
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-12">
+          <ul class="nav align-items-center justify-content-center" style="font-size: 24px">
+            <li class="nav-item active">
+              <a href="<%= url_for 'home#index' %>" class="nav-link active">Home<br></a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= url_for 'home#about' %>" class="nav-link active">About Us<br></a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= url_for 'home#services' %>" class="nav-link active">Services<br></a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= url_for 'wedding#index' %>" class="nav-link active">Weddings<br></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link active">Log In<br></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <%= yield %>
   </body>
 </html>
