@@ -1,4 +1,7 @@
                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
+                                    root GET    /                                                                                                 home#index
+                                about_us GET    /about-us(.:format)                                                                               home#about
+                                services GET    /services(.:format)                                                                               home#services
         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
