@@ -9,7 +9,7 @@ gem "rails", "~> 7.0.3", ">= 7.0.3.1"
 gem "sprockets-rails"
 
 # for bootstrap
-gem 'sass-rails'
+gem 'sassc-rails'
 
 # Use postgresql as the database for Active Record
 gem "pg"
@@ -43,6 +43,9 @@ gem "jbuilder"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+# bootstrap
+gem 'bootstrap'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
