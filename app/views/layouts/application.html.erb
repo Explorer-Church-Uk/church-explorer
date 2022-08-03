@@ -12,8 +12,12 @@
   </head>
 
   <body>
-  <p class="notice alert-warning"><%= notice %></p>
-  <p class="alert alert-danger"><%= alert %></p>
+  <% if notice %>
+    <p class="notice alert-warning"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
   <div class="container justify-content-center align-items-center">
       <div class="row">
         <div class="col-md-12">
