@@ -7123,3 +7123,10 @@ a.text-dark:hover, a.text-dark:focus {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
+
+body {
+    background-image: linear-gradient(to bottom, white, #0590fa);
+    background-position: top left;
+    background-size: 100%;
+    background-repeat: repeat;
+}
