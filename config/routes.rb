@@ -12,4 +12,7 @@ Rails.application.routes.draw do
     get '/about', action: :about, controller: 'devise/home'
     get '/services', action: :services, controller: 'devise/home'
   end
+  resource :user do
+    root controller: :wedding, action: :index
+  end
 end

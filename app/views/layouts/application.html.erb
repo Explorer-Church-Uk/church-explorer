@@ -39,9 +39,15 @@
             <li class="nav-item">
               <a href="<%= url_for new_registration_path :user %>" class="nav-link active">Weddings<br></a>
             </li>
+            <% if current_user %>
             <li class="nav-item">
               <a href="<%= url_for new_user_session_path %>" class="nav-link active">Log In<br></a>
             </li>
+            <% else %>
+            <li class="nav-item">
+              <a href="<%= url_for destroy_user_session_path %>" class="nav-link active">Log out</a>
+            </li>
+            <% end %>
           </ul>
         </div>
       </div>
