@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
-  before_action :confirm_login
+  before_action :ensure_logged_in
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
   def index
-    @users = User.find_by({token:params[:token]})
+    if is_overseer? || is_admin?
+      @users = User.all
+    else
+      @users = User.find_by({token:params[:token]})
+    end
   end
 
   # GET /users/1 or /users/1.json
