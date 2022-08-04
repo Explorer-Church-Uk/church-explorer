@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
   end
   def is_member?
     Member.find_by({user: find_user_by_token}).exists?
+    end
+  def is_deacon?
+    Deacon.find_by({user: find_user_by_token}).exists?
   end
+
   def user_has_wedding?
     Wedding.find_by(user:find_user_by_token).exists?
   end
