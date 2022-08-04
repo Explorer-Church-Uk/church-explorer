@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Deacons</h1>
+
+<div id="deacons">
+  <% @deacons.each do |deacon| %>
+    <%= render deacon %>
+    <p>
+      <%= link_to "Show this deacon", deacon %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New deacon", new_deacon_path %>

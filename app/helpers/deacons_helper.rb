@@ -1,0 +1,2 @@
+module DeaconsHelper
+end

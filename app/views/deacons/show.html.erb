@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @deacon %>
+
+<div>
+  <%= link_to "Edit this deacon", edit_deacon_path(@deacon) %> |
+  <%= link_to "Back to deacons", deacons_path %>
+
+  <%= button_to "Destroy this deacon", @deacon, method: :delete %>
+</div>
