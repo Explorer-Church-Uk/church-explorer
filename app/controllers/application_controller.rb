@@ -36,4 +36,12 @@ class ApplicationController < ActionController::Base
   def ensure_logged_in
     logged_in? ? true : (redirect_to_login())
   end
+
+  def ensure_is_overseer
+    if is_overseer?
+      ensure_logged_in
+    else
+      redirect_to_login
+    end
+  end
 end
