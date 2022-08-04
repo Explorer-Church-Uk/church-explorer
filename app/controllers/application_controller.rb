@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     User.find_by({token:params[:token]})
     end
   def get_user_id_from_token
-    User.find_by({token:params[:token]}).id
+    find_user_from_token.id
   end
 
   def rotate_login_token
@@ -21,8 +21,8 @@ class ApplicationController < ActionController::Base
       params[:token] = new_token
     end
   end
-  def logged_in?(user)
-    user.token == params[:token]
+  def logged_in?
+    find_user_from_token ? true : false
   end
   def is_overseer?
     Overseer.find_by({user: get_user_id_from_token()}).exists?
