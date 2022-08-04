@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  mobile: MyString
+  proposed_wedding_date: 2022-08-04 01:51:07
+  actual_wedding_date: 2022-08-04 01:51:07
+  prenuptual_appointment: 2022-08-04 01:51:07
+
+two:
+  user: two
+  mobile: MyString
+  proposed_wedding_date: 2022-08-04 01:51:07
+  actual_wedding_date: 2022-08-04 01:51:07
+  prenuptual_appointment: 2022-08-04 01:51:07

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @wedding %>
+
+<div>
+  <%= link_to "Edit this wedding", edit_wedding_path(@wedding) %> |
+  <%= link_to "Back to weddings", weddings_path %>
+
+  <%= button_to "Destroy this wedding", @wedding, method: :delete %>
+</div>
