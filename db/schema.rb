@@ -10,9 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_04_005107) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_04_181128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admins", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_admins_on_user_id"
+  end
+
+  create_table "deacons", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_deacons_on_member_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.string "address1"
+    t.string "address2"
+    t.string "address3"
+    t.string "city"
+    t.string "postcode"
+    t.string "mobile"
+    t.string "home_phone"
+    t.string "work_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "nickname"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
 
   create_table "overseers", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -39,6 +70,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_005107) do
     t.index ["user_id"], name: "index_weddings_on_user_id"
   end
 
+  add_foreign_key "admins", "users"
+  add_foreign_key "deacons", "members"
+  add_foreign_key "members", "users"
   add_foreign_key "overseers", "users"
   add_foreign_key "weddings", "users"
 end
