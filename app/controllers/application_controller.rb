@@ -27,6 +27,9 @@ class ApplicationController < ActionController::Base
   def is_deacon?
     Deacon.find_by({user: find_user_by_token}).exists?
   end
+  def is_admin?
+    Admin.find_by({user: find_user_by_token}).exists?
+  end
 
   def user_has_wedding?
     Wedding.find_by(user:find_user_by_token).exists?
