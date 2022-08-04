@@ -1,9 +1,8 @@
 class AuthenticationController < ApplicationController
+  before_action :set_user, i%[ login ]
 
   def index
   end
-
-  # route user to correct user contr
 
   def login
     if @user.exists?
