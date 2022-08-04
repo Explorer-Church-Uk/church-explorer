@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   get '/', controller: :home,action: :index
   get '/about-us', controller: :home, action: :about
   get '/services', controller: :home, action: :services
-  get '/weddings', controller: :home, action: :weddings
+  get '/wedding-info', controller: :home, action: :weddings
   get '/login', controller: :authentication, action: :login
 end
