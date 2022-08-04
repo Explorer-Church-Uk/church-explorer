@@ -1,11 +1,11 @@
 class AuthenticationController < ApplicationController
-  before_action :set_user, i%[ login ]
+  before_action :set_user, only: [:login]
 
   def index
   end
 
   def login
-    if @user.exists?
+    if @user.nil?
       UserMailer.with(user:@user).deliver_now
     end
   end
