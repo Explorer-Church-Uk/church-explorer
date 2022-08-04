@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_03_230259) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_04_005107) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,5 +28,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_03_230259) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "weddings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "mobile"
+    t.datetime "proposed_wedding_date"
+    t.datetime "actual_wedding_date"
+    t.datetime "prenuptual_appointment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_weddings_on_user_id"
+  end
+
   add_foreign_key "overseers", "users"
+  add_foreign_key "weddings", "users"
 end
