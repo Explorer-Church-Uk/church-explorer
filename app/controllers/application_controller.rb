@@ -5,37 +5,43 @@ class ApplicationController < ActionController::Base
   # after_action :skip_sessions
   after_action :rotate_login_token
 
-  def find_user_by_token
+  def find_user_from_token
+    User.find_by({token:params[:token]})
+    end
+  def get_user_id_from_token
     User.find_by({token:params[:token]}).id
   end
+
   def rotate_login_token
-    user = find_user_by_token()
-    new_token = SecureRandom.urlsafe_base64
-    user.update({token:new_token})
-    user.save
-    params[:token] = new_token
+    if params[:token]
+      user = find_user_from_token
+      new_token = SecureRandom.urlsafe_base64
+      user.update({token:new_token})
+      user.save
+      params[:token] = new_token
+    end
   end
   def logged_in?(user)
     user.token == params[:token]
   end
   def is_overseer?
-    Overseer.find_by({user: find_user_by_token()}).exists?
+    Overseer.find_by({user: get_user_id_from_token()}).exists?
   end
   def is_member?
-    Member.find_by({user: find_user_by_token}).exists?
+    Member.find_by({user: get_user_id_from_token}).exists?
     end
   def is_deacon?
-    Deacon.find_by({user: find_user_by_token}).exists?
+    Deacon.find_by({user: get_user_id_from_token}).exists?
   end
   def is_admin?
-    Admin.find_by({user: find_user_by_token}).exists?
+    Admin.find_by({user: get_user_id_from_token}).exists?
   end
 
   def user_has_wedding?
-    Wedding.find_by(user:find_user_by_token).exists?
+    Wedding.find_by(user:get_user_id_from_token).exists?
   end
   def has_wedding_date?
-    Wedding.find_by(user:find_user_by_token).actual_wedding_date.nil? != true
+    Wedding.find_by(user:get_user_id_from_token).actual_wedding_date.nil? != true
   end
   def redirect_to_login
     redirect_to controller: :authentication, action: :login
