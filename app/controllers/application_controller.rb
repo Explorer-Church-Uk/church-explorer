@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   after_action :rotate_login_token
 
   def find_user_by_token
-    User.find_by({token:params[:token]})
+    User.find_by({token:params[:token]}).id
   end
   def rotate_login_token
     user = find_user_by_token()
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     Overseer.find_by({user: find_user_by_token()}).exists?
   end
   def is_laity?
-    Laity.find_by({user: find_user_by_token()}).exists?
+    Laity.find_by({user: find_user_by_token}).exists?
   end
   def user_has_wedding?
     Wedding.find_by(user:find_user_by_token).exists?
@@ -30,5 +30,10 @@ class ApplicationController < ActionController::Base
   def has_wedding_date?
     Wedding.find_by(user:find_user_by_token).actual_wedding_date.nil? != true
   end
-  #  TODO - write more functions!
+  def redirect_to_login
+    redirect_to controller: :authentication, action: :login
+  end
+  def ensure_logged_in
+    logged_in? ? true : (redirect_to_login())
+  end
 end
