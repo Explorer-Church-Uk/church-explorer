@@ -1,8 +1,7 @@
 <%= form_with(model: user) do |form| %>
   <% if user.errors.any? %>
-    <div style="color: red">
+    <div class="alert-danger">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
       <ul>
         <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,13 +9,24 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="pt-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
   <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
+    <div class="form-group text-center">
+    <%= form.label :email,"Enter your Email Address you will use to Login.", style: "display: block" %>
+    <%= form.email_field :email,class:"form-control text-center",placeholder:"Enter email" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="container text-center">
+    <%= form.submit :create,value:"Sign Up!",class:"btn text-center justify-content-center btn-light"%>
   </div>
 <% end %>
+</div>
+<div class="col-md-4"></div>
+</div>
+</div>
+</div>

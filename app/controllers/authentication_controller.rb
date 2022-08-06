@@ -1,11 +1,11 @@
 class AuthenticationController < ApplicationController
-  before_action :set_user, only: [:login]
+  # before_action :set_user, only: [:login]
 
   def index
   end
 
   def login
-    if @user.nil?
+    if @user.nil? == false
       UserMailer.with(user:@user).deliver_now
     end
   end
@@ -16,7 +16,7 @@ class AuthenticationController < ApplicationController
 
   private
 
-  def set_user
-    @user = User.find_by params[:email]
-  end
+  # def set_user
+  #   @user = User.find_by{email:params[:email]}
+  # end
 end
