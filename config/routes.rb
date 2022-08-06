@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   get '/wedding-info', controller: :home, action: :weddings
   get '/signup/:wedding',to: 'users#new'
   get '/signup',to: 'users#new'
-  get '/login', controller: :authentication, action: :login
+  get '/login', controller: :authentication, action: :index
 end
