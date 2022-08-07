@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   get '/signup/:wedding',to: 'users#new'
   get '/signup',to: 'users#new'
   get '/login', controller: :authentication, action: :index
+  post '/request-wedding', controller: :weddings,action: :request_wedding
 end

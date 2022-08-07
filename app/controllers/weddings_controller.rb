@@ -57,6 +57,10 @@ class WeddingsController < ApplicationController
     end
   end
 
+  def request_wedding
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_wedding
