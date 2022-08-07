@@ -1,0 +1,2 @@
+class WeddingsMailer < ApplicationMailer
+end
