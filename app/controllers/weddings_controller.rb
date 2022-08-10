@@ -59,21 +59,22 @@ class WeddingsController < ApplicationController
   end
 
   def request_wedding
-    WeddingsMailer.new_wedding(params[:couple_nickname],params[:wedding_date],params[:wedding_time],wedding_ics_file(wedding_date:params,wedding_time:string))
+    WeddingsMailer.new_wedding(params[:wedding_email],params[:couple_nickname],params[:wedding_date],params[:wedding_time],wedding_ics_file(to_pastor=false,params[:wedding_date],params[:wedding_time],params[:couple_nickname])).deliver_now()
+    WeddingsMailer.to_pastor(params[:couple_nickname],params[:wedding_phone],params[:wedding_date],params[:wedding_time],wedding_ics_file(to_pastor=true,params[:wedding_date],params[:wedding_time],params[:couple_nickname]),couple_contact_vcard(params[:wedding_email],params[:wedding_phone],params[:couple_nickname])).deliver_now()
   end
 
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_wedding
-      @wedding = Wedding.find(params[:id])
-    end
+    @wedding = Wedding.find(params[:id])
+  end
 
   # Only allow a list of trusted parameters through.
   def wedding_params
       params.require(:wedding).permit(:user_id, :mobile, :proposed_wedding_date, :actual_wedding_date, :prenuptual_appointment)
     end
 
-  def wedding_ics_file(to_pastor=false,wedding_date:string,wedding_time:string,couple_nickname:string)
+  def wedding_ics_file(to_pastor,wedding_date,wedding_time,couple_nickname)
     wedding_time = Time.new(wedding_time)
     wedding_datetime = DateTime.new(wedding_date)
     wedding_datetime.change(hour:wedding_time.hour,min:wedding_time.min)
@@ -82,7 +83,7 @@ class WeddingsController < ApplicationController
     cal.add_event do |e|
       e.dtstart       wedding_datetime
       e.dtend         wedding_datetime
-      e.summary       to_pastor ? "Wedding Date To Confirm" : "Your Preferred Wedding Date"
+      e.summary       to_pastor ? "Wedding Date To Confirm - #{couple_nickname}" : "Your Preferred Wedding Date"
       e.description 'A Wedding Date - To Be Confirmed'
       e.categories    [ 'APPOINTMENT' ]
       e.categories do |c| c.push 'WEDDING' end

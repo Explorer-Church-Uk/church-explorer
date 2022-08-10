@@ -6,10 +6,11 @@ class WeddingsMailer < ApplicationMailer
     @wedding_time = wedding_time
     mail to: wedding_email,subject: 'Wedding Appointment'
   end
-  def to_pastor(couple_nickname,wedding_date,wedding_time,ics_file,vcard)
+  def to_pastor(couple_nickname,wedding_phone,wedding_date,wedding_time,ics_file,vcard)
     attachments['proposed_wedding_date.ics'] = ics_file
     attachments['contact_details.ics'] = vcard
 
+    @wedding_phone = wedding_phone
     @wedding_date = wedding_date
     @wedding_time = wedding_time
     @couple_nickname = couple_nickname
