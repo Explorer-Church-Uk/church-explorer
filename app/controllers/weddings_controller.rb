@@ -61,7 +61,7 @@ class WeddingsController < ApplicationController
 
   def request_wedding
     WeddingsMailer.new_wedding(params[:wedding_email],params[:couple_nickname],params[:wedding_date],params[:wedding_time],wedding_ics_file(to_pastor=false,params[:wedding_date],params[:wedding_time],params[:couple_nickname])).deliver_now()
-    WeddingsMailer.to_pastor(params[:couple_nickname],params[:wedding_phone],params[:wedding_date],params[:wedding_time],wedding_ics_file(to_pastor=true,params[:wedding_date],params[:wedding_time],params[:couple_nickname]),couple_contact_vcard(params[:wedding_email],params[:wedding_phone],params[:couple_nickname])).deliver_now()
+    WeddingsMailer.to_pastor(params[:couple_nickname],params[:wedding_phone],params[:wedding_date],params[:wedding_time],params[:wedding_message],wedding_ics_file(to_pastor=true,params[:wedding_date],params[:wedding_time],params[:couple_nickname]),couple_contact_vcard(params[:wedding_email],params[:wedding_phone],params[:couple_nickname])).deliver_now()
     redirect_to root_url
   end
 
@@ -95,7 +95,7 @@ class WeddingsController < ApplicationController
 
   def wedding_ics_file(to_pastor,wedding_date,wedding_time,couple_nickname)
     wedding_time = Time.new(wedding_time)
-    wedding_datetime = DateTime.new(wedding_date)
+    wedding_datetime = DateTime.parse(wedding_date)
     wedding_datetime.change(hour:wedding_time.hour,min:wedding_time.min)
     cal = Vpim::Icalendar.create2
 
