@@ -122,7 +122,7 @@ class WeddingsController < ApplicationController
       attendee = Vpim::Icalendar::Address.create("mailto:#{params[:wedding_email]}")
       attendee.rsvp = false
       e.add_attendee attendee
-      pastor = Vpim::Icalendar::Address.create("mailto:m.s.cooke@btinternet.com")
+      pastor = Vpim::Icalendar::Address.create(ENV['celebrant_email'])
       pastor.rsvp = true
       e.add_attendee pastor
     end
