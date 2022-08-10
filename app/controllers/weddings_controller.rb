@@ -60,8 +60,8 @@ class WeddingsController < ApplicationController
   end
 
   def request_wedding
-    WeddingsMailer.new_wedding(params[:wedding_email],params[:couple_nickname],params[:wedding_date],params[:wedding_time],wedding_ics_file(to_pastor=false,params[:wedding_date],params[:wedding_time],params[:couple_nickname])).deliver_now()
-    WeddingsMailer.to_pastor(params[:couple_nickname],params[:wedding_phone],params[:wedding_date],params[:wedding_time],params[:wedding_message],wedding_ics_file(to_pastor=true,params[:wedding_date],params[:wedding_time],params[:couple_nickname]),couple_contact_vcard(params[:wedding_email],params[:wedding_phone],params[:couple_nickname])).deliver_now()
+    WeddingsMailer.with(couple_nickname:params[:couple_nickname],wedding_phone:params[:wedding_phone],wedding_date:params[:wedding_date],wedding_time:params[:wedding_time],wedding_message:params[:wedding_message],wedding_email:params[:wedding_email],wedding_phone:params[:wedding_phone]).new_wedding.deliver_now()
+    WeddingsMailer.with(couple_nickname:params[:couple_nickname],wedding_phone:params[:wedding_phone],wedding_date:params[:wedding_date],wedding_time:params[:wedding_time],wedding_message:params[:wedding_message],wedding_email:params[:wedding_email],wedding_phone:params[:wedding_phone]).to_pastor.deliver_now()
     redirect_to root_url
   end
 
@@ -76,62 +76,5 @@ class WeddingsController < ApplicationController
     params.require(:wedding).permit(:user_id, :mobile, :proposed_wedding_date, :actual_wedding_date, :prenuptual_appointment)
   end
 
-  def couple_contact_vcard(wedding_email,wedding_phone,couple_nickname)
-    contact_vcard_directory = Vpim::DirectoryInfo.create(
-      [
-        Vpim::DirectoryInfo::Field.create('VERSION', '2.1')
-      ], 'VCARD')
 
-    contact_vcard = Vpim::Vcard::Maker.make2(contact_vcard_directory) do |maker|
-      maker.name do |n|
-        n.given = couple_nickname
-      end
-      maker.nickname = couple_nickname
-      maker.add_tel(wedding_phone){ |telephone| telephone.location = 'home'; telephone.preferred = true }
-      maker.add_email(wedding_email) do |contact_email|
-        contact_email.preferred = 'yes'
-        contact_email.location = 'home'
-      end
-    end
-    return contact_vcard.to_s
-  end
-
-  def wedding_ics_file(to_pastor,wedding_date,wedding_time,couple_nickname)
-    wedding_time = Time.new(wedding_time)
-    wedding_datetime = DateTime.parse(wedding_date)
-    wedding_datetime.change(hour:wedding_time.hour,min:wedding_time.min)
-    cal = Vpim::Icalendar.create2
-
-    cal.add_event do |e|
-      e.dtstart       wedding_datetime
-      e.dtend         wedding_datetime
-      e.summary       to_pastor ? "Wedding Date To Confirm - #{couple_nickname}" : "Your Preferred Wedding Date"
-      e.description 'A Wedding Date - To Be Confirmed'
-      e.categories    [ 'APPOINTMENT' ]
-      e.categories do |c| c.push 'WEDDING' end
-      e.url           'https://carmelpeasdown.church'
-      e.access_class  "PRIVATE"
-      e.transparency  'OPAQUE'
-
-      now = Time.now
-      e.created       now
-      e.lastmod       now
-
-      # e.organizer do |o|
-      #   o.cn = "Carmel Church - Peasdown"
-      #   o.uri = "mailto:weddings@carmelpeasdown.church"
-      # end
-
-      attendee = Vpim::Icalendar::Address.create("mailto:#{params[:wedding_email]}")
-      attendee.rsvp = false
-      e.add_attendee attendee
-      pastor = Vpim::Icalendar::Address.create("mailto:#{ENV['celebrant_email']}")
-      pastor.rsvp = true
-      e.add_attendee pastor
-    end
-
-    icsfile = File.new("./prefered_wedding_reservatation/#{couple_nickname}-#{wedding_date}-#{wedding_time.strftime('%I-%M')}.ics",'w+')
-    icsfile.write(cal.encode)
-    return icsfile.read()
-  end
 end
