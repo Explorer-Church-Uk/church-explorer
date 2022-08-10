@@ -73,7 +73,7 @@ class WeddingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def wedding_params
-      params.require(:wedding).permit(:user_id, :mobile, :proposed_wedding_date, :actual_wedding_date, :prenuptual_appointment)
+    params.require(:wedding).permit(:user_id, :mobile, :proposed_wedding_date, :actual_wedding_date, :prenuptual_appointment)
   end
 
   def couple_contact_vcard(wedding_email,wedding_phone,couple_nickname)
@@ -83,6 +83,9 @@ class WeddingsController < ApplicationController
       ], 'VCARD')
 
     contact_vcard = Vpim::Vcard::Maker.make2(contact_vcard_directory) do |maker|
+      maker.name do |n|
+        n.given = couple_nickname
+      end
       maker.nickname = couple_nickname
       maker.add_tel(wedding_phone){ |telephone| telephone.location = 'home'; telephone.preferred = true }
       maker.add_email(wedding_email) do |contact_email|
@@ -114,20 +117,20 @@ class WeddingsController < ApplicationController
       e.created       now
       e.lastmod       now
 
-      e.organizer do |o|
-        o.cn = "Carmel Church - Peasdown"
-        o.uri = "mailto:weddings@carmelpeasdown.church"
-      end
+      # e.organizer do |o|
+      #   o.cn = "Carmel Church - Peasdown"
+      #   o.uri = "mailto:weddings@carmelpeasdown.church"
+      # end
 
       attendee = Vpim::Icalendar::Address.create("mailto:#{params[:wedding_email]}")
       attendee.rsvp = false
       e.add_attendee attendee
-      pastor = Vpim::Icalendar::Address.create(ENV['celebrant_email'])
+      pastor = Vpim::Icalendar::Address.create("mailto:#{ENV['celebrant_email']}")
       pastor.rsvp = true
       e.add_attendee pastor
     end
 
-    icsfile = File.new("./prefered_wedding_reservatation/#{couple_nickname}-#{wedding_date}-#{wedding_time.strftime('%I-%M')}.ics",'rw')
+    icsfile = File.new("./prefered_wedding_reservatation/#{couple_nickname}-#{wedding_date}-#{wedding_time.strftime('%I-%M')}.ics",'w+')
     icsfile.write(cal.encode)
     return icsfile.read()
   end
