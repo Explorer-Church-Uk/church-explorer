@@ -75,7 +75,6 @@ Rails.application.configure do
   config.sass.inline_source_maps = true
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.
 
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
