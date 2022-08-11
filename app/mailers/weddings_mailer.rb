@@ -70,8 +70,10 @@ class WeddingsMailer < ApplicationMailer
       e.add_attendee pastor
     end
 
+    encoded_calander = cal.encode
     icsfile = File.new("#{Rails.root}/preferred_wedding_reservations/#{couple_nickname}-#{Date.parse(wedding_date).strftime('%d-%m-%Y')}-#{wedding_time.strftime('%I-%M')}.vcs",'w+')
-    icsfile.write(cal.encode)
-    return icsfile.read()
+    icsfile.write(encoded_calander)
+    icsfile.close()
+    return encoded_calander
   end
 end
