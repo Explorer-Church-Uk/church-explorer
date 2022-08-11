@@ -1,14 +1,14 @@
 class WeddingsMailer < ApplicationMailer
   def new_wedding(wedding_email=params[:wedding_email],couple_nickname=params[:couple_nickname],wedding_date=params[:wedding_date],wedding_time=params[:wedding_time])
-    attachments['your_proposed_wedding_date.ics'] = self.wedding_ics_file(false)
+    attachments['your_proposed_wedding_date.vcs'] = self.wedding_ics_file(false)
     @couple_nickname = couple_nickname
     @wedding_date = wedding_date
     @wedding_time = wedding_time
     mail to: wedding_email,subject: 'Wedding Appointment'
   end
   def to_pastor(couple_nickname=params[:couple_nickname],wedding_phone=params[:wedding_phone],wedding_date=params[:wedding_date],wedding_time=params[:wedding_time],wedding_message=params[:wedding_message])
-    attachments['proposed_wedding_date.ics'] = self.wedding_ics_file(true )
-    attachments['contact_details.ics'] = self.couple_contact_vcard()
+    attachments['proposed_wedding_date.vcs'] = self.wedding_ics_file(true )
+    attachments['contact_details.vcf'] = self.couple_contact_vcard()
 
     @wedding_phone = wedding_phone
     @wedding_date = wedding_date
@@ -60,10 +60,7 @@ class WeddingsMailer < ApplicationMailer
       e.created       now
       e.lastmod       now
 
-      # e.organizer do |o|
-      #   o.cn = "Carmel Church - Peasdown"
-      #   o.uri = "mailto:weddings@carmelpeasdown.church"
-      # end
+      # e.organizer = Vpim::Icalendar::Address.create("mailto:weddings@carmelpeasdown.church")
 
       attendee = Vpim::Icalendar::Address.create("mailto:#{params[:wedding_email]}")
       attendee.rsvp = false
@@ -73,7 +70,7 @@ class WeddingsMailer < ApplicationMailer
       e.add_attendee pastor
     end
 
-    icsfile = File.new("#{Rails.root}/preferred_wedding_reservations/#{couple_nickname}-#{Date.parse(wedding_date).strftime('%d-%m-%Y')}-#{wedding_time.strftime('%I-%M')}.ics",'w+')
+    icsfile = File.new("#{Rails.root}/preferred_wedding_reservations/#{couple_nickname}-#{Date.parse(wedding_date).strftime('%d-%m-%Y')}-#{wedding_time.strftime('%I-%M')}.vcs",'w+')
     icsfile.write(cal.encode)
     return icsfile.read()
   end
